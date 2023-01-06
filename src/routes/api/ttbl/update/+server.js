@@ -16,32 +16,32 @@ export async function GET({ url }) {
 	);
 	if (!release) return res204;
 
-	// const assetsMacIntel = release.assets.find(
-	// 	(x) => x.name === 'ttbl-intel_tarball.tar.gz',
-	// );
-	// const assetsMacSilicon = release.assets.find(
-	// 	(x) => x.name === 'ttbl-m1_tarball.tar.gz',
-	// );
+	const assetsMacIntel = release.assets.find(
+		(x) => x.name === 'ttbl-intel_tarball.tar.gz',
+	);
+	const assetsMacSilicon = release.assets.find(
+		(x) => x.name === 'ttbl-m1_tarball.tar.gz',
+	);
 
-	// if (!assetsMacIntel || !assetsMacSilicon) return res204;
-	//
-	// const ret = {
-	// 	version: targetVersion,
-	// 	notes: release.body,
-	// 	pub_date: release.published_at,
-	// 	platforms: {
-	// 		'darwin-x86_64': {
-	// 			signature: '',
-	// 			url: assetsMacIntel.url,
-	// 		},
-	// 		'darwin-aarch64': {
-	// 			signature: '',
-	// 			url: assetsMacSilicon.url,
-	// 		},
-	// 	},
-	// };
+	if (!assetsMacIntel || !assetsMacSilicon) return res204;
 
-	return new Response(JSON.stringify(release), {
+	const ret = {
+		version: targetVersion,
+		notes: release.body,
+		pub_date: release.published_at,
+		platforms: {
+			'darwin-x86_64': {
+				signature: '',
+				url: assetsMacIntel.url,
+			},
+			'darwin-aarch64': {
+				signature: '',
+				url: assetsMacSilicon.url,
+			},
+		},
+	};
+
+	return new Response(JSON.stringify(ret), {
 		status: 200,
 	});
 }
