@@ -32,11 +32,11 @@ export async function GET({ url }) {
 		platforms: {
 			'darwin-x86_64': {
 				signature: '',
-				url: assetsMacIntel.url,
+				url: `https://github.com/gaoDean/ttbl/releases/download/${targetVersion}/ttbl-intel_tarball.tar.gz`,
 			},
 			'darwin-aarch64': {
 				signature: '',
-				url: assetsMacSilicon.url,
+				url: `https://github.com/gaoDean/ttbl/releases/download/${targetVersion}/ttbl-m1_tarball.tar.gz`,
 			},
 		},
 	};
