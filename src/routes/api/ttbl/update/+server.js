@@ -4,14 +4,14 @@ const res204 = new Response(null, {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
-	// const targetVersion = url.searchParams.get('target');
+	const targetVersion = url.searchParams.get('target');
 
 	const releases = await fetch(
 		'https://api.github.com/repos/gaoDean/ttbl/releases',
 	);
 	if (!releases || !releases.ok) return res204;
 
-	const release = releases.find(
+	const release = (await releases.json()).find(
 		(x) => x.tag_name === targetVersion,
 	);
 	if (!release) return res204;
