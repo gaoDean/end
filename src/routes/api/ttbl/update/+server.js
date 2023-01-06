@@ -1,16 +1,20 @@
+const res204 = new Response(null, {
+	status: 204,
+});
+
 /** @type {import('./$types').RequestHandler} */
-export function GET({ url }) {
+export async function GET({ url }) {
 	const targetVersion = url.searchParams.get('target');
 
-	const releases = fetch('https://api.github.com/repos/gaoDean/ttbl/releases');
+	const releases = await fetch(
+		'https://api.github.com/repos/gaoDean/ttbl/releases',
+	);
+	if (!releases || !releases.ok) return res204;
 
-	const release = releases.find((x) => x.tag_name === targetVersion);
-
-	if (!release) {
-		return new Response(null, {
-			status: 204,
-		});
-	}
+	const release = (await releases.json()).find(
+		(x) => x.tag_name === targetVersion,
+	);
+	if (!release) return res204;
 
 	const assetsMacIntel = release.assets.find(
 		(x) => x.name === 'ttbl-intel_tarball.tar.gz',
@@ -19,11 +23,7 @@ export function GET({ url }) {
 		(x) => x.name === 'ttbl-m1_tarball.tar.gz',
 	);
 
-	if (!assetsMacIntel || !assetsMacSilicon) {
-		return new Response(null, {
-			status: 204,
-		});
-	}
+	if (!assetsMacIntel || !assetsMacSilicon) return res204;
 
 	const ret = {
 		version: targetVersion,
