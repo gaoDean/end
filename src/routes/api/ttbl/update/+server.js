@@ -11,18 +11,18 @@ export async function GET({ url }) {
 	);
 	if (!releases || !releases.ok) return res204;
 
-	// const release = (await releases.json()).find(
-	// 	(x) => x.tag_name === targetVersion,
-	// );
-	// if (!release) return res204;
-	//
+	const release = releases.find(
+		(x) => x.tag_name === targetVersion,
+	);
+	if (!release) return res204;
+
 	// const assetsMacIntel = release.assets.find(
 	// 	(x) => x.name === 'ttbl-intel_tarball.tar.gz',
 	// );
 	// const assetsMacSilicon = release.assets.find(
 	// 	(x) => x.name === 'ttbl-m1_tarball.tar.gz',
 	// );
-	//
+
 	// if (!assetsMacIntel || !assetsMacSilicon) return res204;
 	//
 	// const ret = {
@@ -41,7 +41,7 @@ export async function GET({ url }) {
 	// 	},
 	// };
 
-	return new Response(releases, {
+	return new Response(JSON.stringify(release), {
 		status: 200,
 	});
 }
